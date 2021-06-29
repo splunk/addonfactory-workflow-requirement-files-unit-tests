@@ -10,14 +10,11 @@ runs:
   steps:
     - run: python -m pip install PyGithub  # Installing dependencies
       shell: bash
+    - run: echo "TA REQUIREMENT LOGS UNIT TESTS STARTED:"
+      shell: bash
     - run: python ${{ github.action_path }}/test_lib/xml_format_checker.py  ${{ inputs.input-files }}
       shell: bash
     - run: python ${{ github.action_path }}/test_lib/validate_xml.py -i ${{ inputs.input-files }} -s ${{ github.action_path }}/test_lib/schema.xsd
       shell: bash
     - run: python ${{ github.action_path }}/test_lib/test_cim.py -i ${{ inputs.input-files }} -j ${{ github.action_path }}/test_lib/sa-commoninformationmodel/models/
       shell: bash
-    - name: Upload test format output file
-      uses: actions/upload-artifact@v2
-      with:
-        name: upload-test-format
-        path: test_format_output.txt

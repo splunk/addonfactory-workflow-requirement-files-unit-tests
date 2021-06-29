@@ -3,11 +3,20 @@ import logging
 from xml.sax.handler import ContentHandler
 from xml.sax import make_parser
 
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+output_file_handler = logging.FileHandler("test_format_output.txt", mode='w')
+stdout_handler = logging.StreamHandler(sys.stdout)
+logger.addHandler(output_file_handler)
+logger.addHandler(stdout_handler)
+INVALID = False
+
 def parsefile(file):
     parser = make_parser()
     parser.setContentHandler(ContentHandler())
     parser.parse(file)
 
+print('Running XML format checker:')
 try:
     inputFolder=sys.argv[1]
 except:
@@ -17,7 +26,6 @@ if len(sys.argv)!=1:
     inputFolder = sys.argv[1]
 
 JENKIN_STATUS = True
-testResult = open("test_format_output.txt", "w")
 
 for dirpath, dirs, files in os.walk(inputFolder): 
   for filename in files:
@@ -28,17 +36,15 @@ for dirpath, dirs, files in os.walk(inputFolder):
             print(' Pass : {}'.format(str(fname)))
         except Exception as e:
             JENKIN_STATUS = False
-            testResult.write(str(e) + "\n")
+            logger.debug(str(e) + "\n")
             logging.error(' Failed : {}'.format(str(e)))
     if fname.endswith(".xml"):
-        testResult.write(fname + ":Invalid input file format")
+        logger.debug(fname + ":Invalid input file format")
         JENKIN_STATUS = False
 
 if(JENKIN_STATUS == True):
-    testResult.write("No formatting errors \n")
-    testResult.close()    
+    logger.debug("No formatting errors ")
 else:
-    testResult.close() 
     exit(1)
 
 

@@ -7,7 +7,7 @@ import logging
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-output_file_handler = logging.FileHandler("../validation_test_output.txt", mode='w')
+output_file_handler = logging.FileHandler("test_validation_output.txt", mode='w')
 stdout_handler = logging.StreamHandler(sys.stdout)
 logger.addHandler(output_file_handler)
 logger.addHandler(stdout_handler)
@@ -62,6 +62,7 @@ def parse_input(input_arg,schema_arg):
 
 
 if __name__ == "__main__":
+    print('Running XML Validation:')
     parser = argparse.ArgumentParser()
     parser.add_argument('-i','--input', help='Input-file/folder to validate against schema', required=True)
     parser.add_argument('-s','--schema_file', help='Schema.xsd location', required=True)

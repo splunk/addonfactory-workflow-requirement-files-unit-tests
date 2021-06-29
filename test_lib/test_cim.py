@@ -8,7 +8,13 @@ import logging
 
 HELP_STR = 'test_cim.py -i <input log folder to test> -j <jsonDir>'
 JENKINS_STATUS = True
-test_cim_output = open("test_cim_output.txt", "w")
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+output_file_handler = logging.FileHandler("test_cim_output.txt", mode='w')
+stdout_handler = logging.StreamHandler(sys.stdout)
+logger.addHandler(output_file_handler)
+logger.addHandler(stdout_handler)
+INVALID = False
 # function to print help
 def input_error():
     print(HELP_STR)
@@ -167,22 +173,22 @@ def check_valid_dataset(dict_model, dataset):
 
 
 def print_error_msg(file_name, event, model,msg_str, dataset = ""):
-    test_cim_output.write("----------------------------------------------" + '\n')
-    test_cim_output.write("FILENAME : " + str(file_name) + '\n')
-    test_cim_output.write("EVENT : " + str(event) + '\n')
-    test_cim_output.write("MODEL : " + str(model) + '\n')
-    test_cim_output.write("DATASET : " + str(dataset) + '\n')
-    test_cim_output.write(msg_str + "\n")
+    logger.debug("----------------------------------------------")
+    logger.debug("FILENAME : " + str(file_name))
+    logger.debug("EVENT : " + str(event))
+    logger.debug("MODEL : " + str(model))
+    logger.debug("DATASET : " + str(dataset))
+    logger.debug(msg_str)
 
 
-def cim_matching(file_name, jsondir, test_cim_output):
+def cim_matching(file_name, jsondir):
     counter = 0
     global JENKINS_STATUS
     # Parsing xml file 
     root = fetch_root_xml(file_name)
     if root == None :
         JENKINS_STATUS = False
-        test_cim_output.write("ERROR parsing xml file" + file_name + '\n')
+        logger.debug("ERROR parsing xml file" + file_name + '\n')
         return
     for cim in root.iter('event'):
         fields_xml = fetch_xml_fields(cim)
@@ -230,20 +236,20 @@ def cim_matching(file_name, jsondir, test_cim_output):
                 missing_fields = match_recommended_fields(field_json, fields_xml)
                 if missing_fields:
                     JENKINS_STATUS = False
-                    test_cim_output.write("----------------------------------------------" + '\n')
-                    test_cim_output.write("FILENAME : " + str(file_name) + '\n')
-                    test_cim_output.write("EVENT : " + str(event) + '\n')
-                    test_cim_output.write("MODEL : " + str(model) + '\n')
+                    logger.debug("----------------------------------------------" )
+                    logger.debug("FILENAME : " + str(file_name) )
+                    logger.debug("EVENT : " + str(event) )
+                    logger.debug("MODEL : " + str(model))
                     if dataset:
-                        test_cim_output.write("DATASET : " + str(dataset) + '\n')
+                        logger.debug("DATASET : " + str(dataset) )
                     if subdataset:
-                        test_cim_output.write("SUBDATASET : " + str(subdataset) + '\n')
-                    test_cim_output.write("CIM BASE EVENT RECOMMENDED : " + (', '.join(recommended_for_all)) + '\n')
+                        logger.debug("SUBDATASET : " + str(subdataset) )
+                    logger.debug("CIM BASE EVENT RECOMMENDED : " + (', '.join(recommended_for_all)))
                     if dataset or dataset_recommended:
-                        test_cim_output.write("CIM DATASET RECOMMENDED : " + (', '.join(dataset_recommended)) + '\n')
-                    test_cim_output.write("REQUIREMENT FILE RECOMMENDED : " + (', '.join(fields_xml)) + '\n')
-                    test_cim_output.write(
-                        "MISSING CIM RECOMMENDED IN REQUIREMENT FILE : " + (','.join(set(missing_fields))) + '\n')
+                        logger.debug("CIM DATASET RECOMMENDED : " + (', '.join(dataset_recommended)))
+                    logger.debug("REQUIREMENT FILE RECOMMENDED : " + (', '.join(fields_xml)))
+                    logger.debug(
+                        "MISSING CIM RECOMMENDED IN REQUIREMENT FILE : " + (','.join(set(missing_fields))))
 
 
 #to extract model name from the xml file
@@ -285,25 +291,29 @@ def parse_args(argv):
 
 
 def main(argv):
+    print('Running CIM model, required field test:')
     input_dir, json_dir = parse_args(argv)
     #run this for all files in the input folder given
     global JENKINS_STATUS
-    test_cim_output = open("test_cim_output.txt", "w")
     if os.path.exists(input_dir):
         if os.path.isfile(input_dir):
-            cim_matching(input_dir,json_dir,test_cim_output)
+            cim_matching(input_dir,json_dir)
         else:
             for subdir, _, files in os.walk(input_dir):
                 for file in files:
                     filename = os.path.join(subdir, file)
                     if filename.endswith(".log"):
-                        cim_matching(filename,json_dir,test_cim_output)
-        test_cim_output.close()
-        print(open("test_cim_output.txt", "r").read())
+                        cim_matching(filename,json_dir)
+
     else:
         print ("Invalid Input")
     if JENKINS_STATUS == False:
         exit(1)
+    else:
+        logger.debug("No errors")
+
+
+
 
 if __name__ == "__main__":
      main(sys.argv[1:])
