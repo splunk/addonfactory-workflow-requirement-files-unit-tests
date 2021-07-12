@@ -8,8 +8,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: python -m pip install PyGithub  # Installing dependencies
-      shell: bash
     - run: echo "TA REQUIREMENT LOGS UNIT TESTS STARTED:"
       shell: bash
     - run: python ${{ github.action_path }}/test_lib/xml_format_checker.py  ${{ inputs.input-files }}
