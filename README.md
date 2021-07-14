@@ -20,4 +20,8 @@ For archiving test results in case of failure add following to workflow.yml
           path: |
             test_*.txt
 ```
+# License
 
+The scripts and documentation in this project are released under the LICENSE (LICENSE)
+
+Copyright (C) 2021 Splunk Inc. All rights reserved.

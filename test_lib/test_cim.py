@@ -1,3 +1,4 @@
+#  Copyright (C) 2021 Splunk Inc. All rights reserved.
 # Test to check if XML contains all cim recommended fields based on the model name of the event
 # Usage- test_cim.py -i <input log folder to test> -j <jsonDir>
 # Json directory test_xml/sa-commoninformationmodel/package/default/data/models/ 

@@ -1,3 +1,4 @@
+# Copyright (C) 2021 Splunk Inc. All rights reserved.
 import os.path, sys
 import logging
 from xml.sax.handler import ContentHandler
