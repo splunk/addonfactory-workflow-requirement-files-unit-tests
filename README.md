@@ -23,12 +23,4 @@ For archiving test results in case of failure add following to workflow.yml
 
 # License
 
-The scripts and documentation in this project are released under the [LICENSE](LICENSE)
-
-# Contributions
-
-See [our contributor license agreement](https://github.com/splunk/cla-agreement/blob/main/CLA.md)
-
-## Code of Conduct
-
-:wave: Be nice.  See [our code of conduct](https://github.com/splunk/cla-agreement/blob/main/CODE_OF_CONDUCT.md)
+The scripts and documentation in this project are released under the [Apache 2.0 License](LICENSE)
