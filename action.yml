@@ -33,9 +33,3 @@ runs:
       shell: bash
     - run: python ${{ github.action_path }}/test_lib/test_tranport_attrib.py -i ${{ inputs.input-files }}
       shell: bash
-run2:
-  using: "composite"
-  steps:
-    - run: echo "TA REQUIREMENT LOGS UNIT TESTS STARTED:"
-      shell: bash
-    - run: python ${{ github.action_path }}/test_lib/xml_format_checker.py  ${{ inputs.input-files }}
