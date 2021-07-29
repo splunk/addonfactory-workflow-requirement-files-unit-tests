@@ -100,6 +100,7 @@ def parse_input(input_arg):
         exit(1)
 
 if __name__ == "__main__":
+    print('Running transport attrib test:')
     parser = argparse.ArgumentParser()
     parser.add_argument('-i','--input', help='Input-file/folder to test tranport params', required=True)
     args = parser.parse_args()
