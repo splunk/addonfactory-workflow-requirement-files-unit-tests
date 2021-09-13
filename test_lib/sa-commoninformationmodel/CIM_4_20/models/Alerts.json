@@ -433,6 +433,26 @@
             }
           ],
           "expression": "if(isnull(user) OR user=\"\",\"unknown\",user)"
+        },
+        {
+          "calculationID": "Alerts_fillnull_user_name",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user_name of user involved in the alert event.",
+                "recommended": true
+              },
+              "fieldName": "user_name",
+              "displayName": "user_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user_name) OR user_name=\"\",\"unknown\",user_name)"
         }
       ],
       "constraints": [

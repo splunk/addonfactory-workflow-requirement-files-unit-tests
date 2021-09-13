@@ -492,6 +492,26 @@
           "expression": "if(isnull(user) OR user=\"\",\"unknown\",user)"
         },
         {
+          "calculationID": "All_Changes_fillnull_user_name",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user name of the user or entity performing the change. For account changes, this is the account that was changed (see src_user_name for user or entity performing the change).",
+                "recommended": true
+              },
+              "fieldName": "user_name",
+              "displayName": "user_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user_name) OR user_name=\"\",\"unknown\",user_name)"
+        },
+        {
           "calculationID": "All_Changes_vendor_product",
           "calculationType": "Eval",
           "outputFields": [
@@ -550,7 +570,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -564,10 +584,10 @@
       "displayName": "Auditing Changes",
       "parentName": "All_Changes",
       "fields": [
-        
+
       ],
       "calculations": [
-        
+
       ],
       "constraints": [
         {
@@ -575,7 +595,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -589,10 +609,10 @@
       "displayName": "Endpoint Changes",
       "parentName": "All_Changes",
       "fields": [
-        
+
       ],
       "calculations": [
-        
+
       ],
       "constraints": [
         {
@@ -600,7 +620,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -614,10 +634,10 @@
       "displayName": "Endpoint Restarts",
       "parentName": "Endpoint_Changes",
       "fields": [
-        
+
       ],
       "calculations": [
-        
+
       ],
       "constraints": [
         {
@@ -625,7 +645,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -639,10 +659,10 @@
       "displayName": "Other Endpoint Changes",
       "parentName": "Endpoint_Changes",
       "fields": [
-        
+
       ],
       "calculations": [
-        
+
       ],
       "constraints": [
         {
@@ -650,7 +670,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -765,7 +785,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -779,10 +799,10 @@
       "displayName": "Device Restarts",
       "parentName": "Network_Changes",
       "fields": [
-        
+
       ],
       "calculations": [
-        
+
       ],
       "constraints": [
         {
@@ -790,7 +810,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -916,6 +936,26 @@
             }
           ],
           "expression": "if(isnull(src_user) OR src_user=\"\",\"unknown\",src_user)"
+        },
+        {
+          "calculationID": "Account_Management_fillnull_src_user_name",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "For account changes, the user name of the user or entity performing the change.",
+                "recommended": true
+              },
+              "fieldName": "src_user_name",
+              "displayName": "src_user_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src_user_name) OR src_user_name=\"\",\"unknown\",src_user_name)"
         }
       ],
       "constraints": [
@@ -924,7 +964,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -938,10 +978,10 @@
       "displayName": "Created Accounts",
       "parentName": "Account_Management",
       "fields": [
-        
+
       ],
       "calculations": [
-        
+
       ],
       "constraints": [
         {
@@ -949,7 +989,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -963,10 +1003,10 @@
       "displayName": "Deleted Accounts",
       "parentName": "Account_Management",
       "fields": [
-        
+
       ],
       "calculations": [
-        
+
       ],
       "constraints": [
         {
@@ -974,7 +1014,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -988,10 +1028,10 @@
       "displayName": "Locked Accounts",
       "parentName": "Account_Management",
       "fields": [
-        
+
       ],
       "calculations": [
-        
+
       ],
       "constraints": [
         {
@@ -999,7 +1039,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {
@@ -1013,10 +1053,10 @@
       "displayName": "Updated Accounts",
       "parentName": "Account_Management",
       "fields": [
-        
+
       ],
       "calculations": [
-        
+
       ],
       "constraints": [
         {
@@ -1024,7 +1064,7 @@
         }
       ],
       "children": [
-        
+
       ]
     },
     {

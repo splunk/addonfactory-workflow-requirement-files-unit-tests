@@ -1,8 +1,11 @@
 # Models
-Splunk Common Information Model 4.18.1
-    http://docs.splunk.com/Documentation/CIM/
+Splunk Common Information Model 4.20.0
 
-Copyright 2021 Splunk Inc.
+Copyright (C) 2005-2018 Splunk Inc. All rights reserved.
+
+* For the Release Notes, What's New, and Getting Started documentation for this 
+release see: 
+     http://docs.splunk.com/Documentation/CIM/
  
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
