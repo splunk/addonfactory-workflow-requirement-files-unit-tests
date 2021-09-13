@@ -738,6 +738,69 @@
       "children": [
         
       ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "web",
+          "storage"
+        ]
+      },
+      "objectName": "Storage",
+      "displayName": "Storage",
+      "parentName": "Web",
+      "fields": [
+        {
+          "comment": {
+            "description": "The name of the bucket or storage account.",
+            "ta_relevant": false
+          },
+          "fieldName": "storage_name",
+          "displayName": "storage_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The operation performed on the storage account.",
+            "ta_relevant": false
+          },
+          "fieldName": "operation",
+          "displayName": "operation",
+          "type": "string",   
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The error code that occurred while accessing the storage account.",
+            "ta_relevant": false
+          },
+          "fieldName": "error_code",
+          "displayName": "error_code",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }  
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=storage"
+        }
+      ],
+      "children": [
+         
+      ]
     }
   ]
 }
