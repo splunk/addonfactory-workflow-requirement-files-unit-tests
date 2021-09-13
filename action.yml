@@ -23,6 +23,12 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - run: python -m pip install jsonschema=="3.2.0"  # Installing dependencies
+      shell: bash
+    - run: python -m pip install lxml=="4.6.3"  # Installing dependencies
+      shell: bash
+    - run: python -m pip install PyGithub  # Installing dependencies
+      shell: bash
     - run: echo "TA REQUIREMENT LOGS UNIT TESTS STARTED:"
       shell: bash
     - run: python ${{ github.action_path }}/test_lib/xml_format_checker.py  ${{ inputs.input-files }}
@@ -30,6 +36,4 @@ runs:
     - run: python ${{ github.action_path }}/test_lib/validate_xml.py -i ${{ inputs.input-files }} -s ${{ github.action_path }}/test_lib/schema.xsd
       shell: bash
     - run: python ${{ github.action_path }}/test_lib/test_cim.py -i ${{ inputs.input-files }} -j ${{ github.action_path }}/test_lib/sa-commoninformationmodel/CIM_4_20/models/
-      shell: bash
-    - run: python ${{ github.action_path }}/test_lib/test_transport_attrib.py -i ${{ inputs.input-files }}
       shell: bash
