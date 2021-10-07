@@ -34,7 +34,7 @@ def parse_input(input_arg):
     else:
         logger.debug("Invalid input path")
     if not INVALID:
-        logger.debug("No Validation issues in the input file/files in input folder")
+        logger.debug("No Unicode chars found")
     if INVALID:
         logger.error("Please open file in terminal or vi to view hidden unicode chars in files")
         exit(1)
