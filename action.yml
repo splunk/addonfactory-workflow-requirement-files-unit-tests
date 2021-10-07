@@ -35,5 +35,7 @@ runs:
       shell: bash
     - run: python ${{ github.action_path }}/test_lib/validate_xml.py -i ${{ inputs.input-files }} -s ${{ github.action_path }}/test_lib/schema.xsd
       shell: bash
+    - run: python ${{ github.action_path }}/test_lib/test_unicode_char.py -i ${{ inputs.input-files }}
+      shell: bash
     - run: python ${{ github.action_path }}/test_lib/test_cim.py -i ${{ inputs.input-files }} -j ${{ github.action_path }}/test_lib/sa-commoninformationmodel/CIM_4_20/models/
       shell: bash
