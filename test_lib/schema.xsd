@@ -54,6 +54,8 @@
                         <xs:enumeration value="Syslog"/>
                         <xs:enumeration value="syslog"/>
                         <xs:enumeration value="windows_input"/>
+                        <xs:enumeration value="hec_raw"/>
+                        <xs:enumeration value="hec_event"/>
                       </xs:restriction>
                     </xs:simpleType>
                   </xs:attribute>
@@ -110,6 +112,23 @@
                       <xs:complexType mixed="true">
                         <xs:sequence>
                           <xs:element type="xs:string" name="field" maxOccurs="unbounded" minOccurs="0"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="exceptions" maxOccurs="1" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="field" maxOccurs="unbounded" minOccurs="1">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="name" use="required" />
+                                  <xs:attribute type="xs:string" name="value" use="required"/>
+                                  <xs:attribute type="xs:string" name="reason" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
