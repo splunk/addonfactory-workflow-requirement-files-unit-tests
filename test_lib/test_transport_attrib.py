@@ -69,7 +69,7 @@ def check_transport_params(filename):
     if root is None:
         logger.debug("ERROR parsing xml file" + filename + '\n')
         return
-    transport_type_list = ["dbx", "modinput","Modinput", "Mod input","Modular Input", "Modular input", "modular input","modular_input", "Mod Input", "windows_input", "hec_event"]
+    transport_type_list = ["dbx", "modinput","Modinput", "Mod input","Modular Input", "Modular input", "modular input","modular_input", "Mod Input", "windows_input", "hec_event", "forwarder"]
     event_no = 1
     for event in root.iter('event'):
         transport_type = extract_transport_tag(event)
