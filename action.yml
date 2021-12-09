@@ -20,14 +20,9 @@ inputs:
     description: 'input folder requirement file'
     required: true
     default: 'tests/requirement_test/'
-  github_token:
-    description: "..."
-    required: true
 runs:
   using: "composite"
   steps:
-    - run: ls -ltr
-      shell: bash
     - run: python -m pip install jsonschema=="3.2.0"  # Installing dependencies
       shell: bash
     - run: python -m pip install lxml=="4.6.3"  # Installing dependencies
