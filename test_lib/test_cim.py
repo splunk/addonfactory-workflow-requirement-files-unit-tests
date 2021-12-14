@@ -1,36 +1,19 @@
-#   ########################################################################
-#   Copyright 2021 Splunk Inc.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License");
-#    you may not use this file except in compliance with the License.
-#    You may obtain a copy of the License at
-#
-#        http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS,
-#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#    See the License for the specific language governing permissions and
-#    limitations under the License.
-#   #######################################################################
-
 # Test to check if XML contains all cim recommended fields based on the model name of the event
-# Usage- test_cim.py -i <input log folder to test> -j <jsonDir>
-# Json directory test_xml/sa-commoninformationmodel/package/default/data/models/ 
+# Usage- test_cim.py -i <input log folder to test>
 import json
 import os.path,sys,getopt
 from xml.etree import cElementTree as ET
 import logging
-
-HELP_STR = 'test_cim.py -i <input log folder to test> -j <jsonDir>'
-JENKINS_STATUS = True
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-output_file_handler = logging.FileHandler("test_cim_output.txt", mode='w')
+output_file_handler = logging.FileHandler("test_cim_output.txt",mode='w')
 stdout_handler = logging.StreamHandler(sys.stdout)
 logger.addHandler(output_file_handler)
 logger.addHandler(stdout_handler)
-INVALID = False
+
+HELP_STR = 'test_cim.py -i <input log folder to test>'
+JENKINS_STATUS = True
+test_cim_output = open("test_cim_output.txt", "w")
 # function to print help
 def input_error():
     print(HELP_STR)
@@ -189,27 +172,32 @@ def check_valid_dataset(dict_model, dataset):
 
 
 def print_error_msg(file_name, event, model,msg_str, dataset = ""):
-    logger.debug("----------------------------------------------")
-    logger.debug("FILENAME : " + str(file_name))
-    logger.debug("EVENT : " + str(event))
-    logger.debug("MODEL : " + str(model))
-    logger.debug("DATASET : " + str(dataset))
-    logger.debug(msg_str)
+    logger.error("----------------------------------------------")
+    logger.error("FILENAME : " + str(file_name))
+    logger.error("EVENT : " + str(event))
+    logger.error("MODEL : " + str(model))
+    logger.error("DATASET : " + str(dataset))
+    logger.error(msg_str)
 
 
-def cim_matching(file_name, jsondir):
+def cim_matching(file_name, jsonpath):
     counter = 0
     global JENKINS_STATUS
-    # Parsing xml file 
+    # Parsing xml file
     root = fetch_root_xml(file_name)
-    if root == None :
+    if root == None:
         JENKINS_STATUS = False
-        logger.debug("ERROR parsing xml file" + file_name + '\n')
+        logger.error("----------------------------------------------")
+        logger.error("ERROR parsing xml file" + file_name)
         return
     for cim in root.iter('event'):
         fields_xml = fetch_xml_fields(cim)
         model_list = fetch_models(cim)
         event = fetch_event_xml(cim)
+        jsondir = fetch_cim_version_event(cim, jsonpath)
+        if jsondir is None:
+            logger.error("No matching CIM version found")
+            continue
         counter += 1
         if len(model_list) > 0:
             for model in model_list:
@@ -219,19 +207,19 @@ def cim_matching(file_name, jsondir):
                 if subdataset:
                     subdataset = subdataset.replace(" ", "_")
                 cim_file = model + ".json"
-                fname = os.path.join(jsondir, cim_file)
+                fname = os.path.join(jsonpath + jsondir, cim_file)
                 try:
                     with open(fname, 'r') as f:
                         dict_model = json.load(f)
                 except IOError:
                     JENKINS_STATUS = False
-                    print_error_msg(file_name, event, model, "ERROR: No CIM model with this name, Please check the format- model:dataset and models at test_xml/sa-commoninformationmodel/models/")
+                    print_error_msg(file_name, event, model, "ERROR: No CIM model with this name, Please check the format- model:dataset and models at deps/CIM_Models/"+ str(jsondir))
                     continue
                 # Dataset valid check
                 if dataset:
                     dataset_valid_flag = check_valid_dataset(dict_model["objects"], dataset)
                     if not dataset_valid_flag:
-                        error_str = "ERROR: No matching dataset present in " + str(cim_file) + " at test_xml/sa-commoninformationmodel/models/"
+                        error_str = "ERROR: No matching dataset present in " + str(cim_file) + " at " + str(jsondir)
                         print_error_msg(file_name, event, model, error_str, dataset)
                         continue
                 # Require dataset for Endpoint and Splunk-audit
@@ -252,19 +240,20 @@ def cim_matching(file_name, jsondir):
                 missing_fields = match_recommended_fields(field_json, fields_xml)
                 if missing_fields:
                     JENKINS_STATUS = False
-                    logger.debug("----------------------------------------------" )
-                    logger.debug("FILENAME : " + str(file_name) )
-                    logger.debug("EVENT : " + str(event) )
-                    logger.debug("MODEL : " + str(model))
+                    logger.error("----------------------------------------------")
+                    logger.error("FILENAME : " + str(file_name))
+                    logger.error("CIM VERSION :" + str(jsondir))
+                    logger.error("EVENT : " + str(event))
+                    logger.error("MODEL : " + str(model))
                     if dataset:
-                        logger.debug("DATASET : " + str(dataset) )
+                        logger.error("DATASET : " + str(dataset))
                     if subdataset:
-                        logger.debug("SUBDATASET : " + str(subdataset) )
-                    logger.debug("CIM BASE EVENT RECOMMENDED : " + (', '.join(recommended_for_all)))
+                        logger.error("SUBDATASET : " + str(subdataset))
+                    logger.error("CIM BASE EVENT RECOMMENDED : " + (', '.join(recommended_for_all)))
                     if dataset or dataset_recommended:
-                        logger.debug("CIM DATASET RECOMMENDED : " + (', '.join(dataset_recommended)))
-                    logger.debug("REQUIREMENT FILE RECOMMENDED : " + (', '.join(fields_xml)))
-                    logger.debug(
+                        logger.error("CIM DATASET RECOMMENDED : " + (', '.join(dataset_recommended)))
+                    logger.error("REQUIREMENT FILE RECOMMENDED : " + (', '.join(fields_xml)))
+                    logger.error(
                         "MISSING CIM RECOMMENDED IN REQUIREMENT FILE : " + (','.join(set(missing_fields))))
 
 
@@ -306,29 +295,62 @@ def parse_args(argv):
     return input_dir, json_dir
 
 
+def fetch_latest_cim_ver(jsonpath):
+    # this function will iterate over existing cim version and fetch the latest
+    cim_model_dir = list()
+    for root, dirs, files in os.walk(jsonpath, topdown=False):
+        for name in dirs:
+            cim_model_dir.append(os.path.join(name))
+    cim_model_dir.sort(reverse=True)
+    return cim_model_dir[0]
+
+def find_cim_dir(cim_version, jsonpath):
+    cim_model_dir = list()
+    for root, dirs, files in os.walk(jsonpath, topdown=False):
+        for name in dirs:
+            cim_model_dir.append(name)
+    if cim_version in cim_model_dir:
+        return cim_version
+    else:
+        matching_cim_versions = list()
+        event_cim_version = cim_version.split('.')
+        for elem in cim_model_dir:
+            cim_ver_dir = elem.split('.')
+            if event_cim_version[0] == cim_ver_dir[0] and event_cim_version[1] == cim_ver_dir[1] :
+                matching_cim_versions.append(os.path.join(elem))
+        if not matching_cim_versions:
+            return None
+        matching_cim_versions.sort(reverse=True)
+        return matching_cim_versions[0]
+
+def fetch_cim_version_event(event, jsonpath):
+    for cim_tag in event.iter('cim'):
+        cim_version = cim_tag.get('version')
+        if cim_version:
+            cim_dir = find_cim_dir(cim_version, jsonpath)
+        else:
+            #if CIM version not mentioned fetch the latest
+            cim_dir = fetch_latest_cim_ver(jsonpath)
+    return cim_dir
+
+
 def main(argv):
-    print('Running CIM model, required field test:')
-    input_dir, json_dir = parse_args(argv)
+    input_dir, json_dir= parse_args(argv)
     #run this for all files in the input folder given
     global JENKINS_STATUS
     if os.path.exists(input_dir):
         if os.path.isfile(input_dir):
-            cim_matching(input_dir,json_dir)
+                cim_matching(input_dir, str(json_dir))
         else:
             for subdir, _, files in os.walk(input_dir):
                 for file in files:
                     filename = os.path.join(subdir, file)
                     if filename.endswith(".log"):
-                        cim_matching(filename,json_dir)
-
+                        cim_matching(filename, str(json_dir))
     else:
         print ("Invalid Input")
     if JENKINS_STATUS == False:
         exit(1)
-    else:
-        logger.debug("No errors")
-
-
 
 
 if __name__ == "__main__":

@@ -134,6 +134,7 @@
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>
+                  <xs:attribute type="xs:string" name="version" use="optional" />
                 </xs:complexType>
               </xs:element>
               <xs:element name="other_mappings" maxOccurs="1" minOccurs="0">
