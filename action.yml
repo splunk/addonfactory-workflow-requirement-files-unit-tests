@@ -13,7 +13,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #   #######################################################################
-name: 'Requirement_test_unit_test_workflow'
+name: 'addonfactory-requirement_test_unit_test_action'
 description: 'Requirement test logs validation unit_test'
 inputs:
   input-files:  # id of input
