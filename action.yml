@@ -13,10 +13,10 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #   #######################################################################
-name: 'Requirement_test_unit_test'
-description: 'Requirement test logs validation unit_test'
+name: 'addonfactory-requirement-files-unit-tests-action'
+description: 'Unit tests for Splunk add-ons requirement tests'
 inputs:
-  input-files:  # id of input
+  input-files:
     description: 'input folder requirement file'
     required: true
     default: 'tests/requirement_test/'
