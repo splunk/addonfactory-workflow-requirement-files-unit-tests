@@ -35,5 +35,5 @@ runs:
       shell: bash
     - run: python ${{ github.action_path }}/test_lib/test_transport_attrib.py -i ${{ inputs.input-files }}
       shell: bash
-    - run: python ${{ github.action_path }}/test_lib/test_cim.py -i ${{ inputs.input-files }} -j ${{ github.action_path }}/deps2/CIM_Models/
+    - run: python ${{ github.action_path }}/test_lib/test_cim.py -i ${{ inputs.input-files }} -j ${{ github.action_path }}/CIM_Models/
       shell: bash
