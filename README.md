@@ -1,6 +1,6 @@
 # addonfactory-workflow-requirement-files-unit-tests
 
-This action provides unit test for Splunk TA's requirement logs.
+This action provides unit tests for Splunk TA's requirement logs.
 `test_lib` contains tests for XML format checking, schema validating and CIM model mapping.
 
 This action is intended for Splunk internal use.
