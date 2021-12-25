@@ -16,7 +16,7 @@
 from typing import List
 from xml.etree import cElementTree as ET
 
-from base_checker import BaseChecker
+from requirement_file_checks.base_checker import BaseChecker
 
 
 class TransportAttributesChecker(BaseChecker):

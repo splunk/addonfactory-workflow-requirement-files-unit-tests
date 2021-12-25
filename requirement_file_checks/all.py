@@ -17,11 +17,11 @@ import argparse
 import os
 from typing import List
 
-from cim import CimChecker
-from transport_attrib import TransportAttributesChecker
-from unicode_char import UnicodeChecker
-from validate_xml import XMLChecker
-from xml_format_checker import XmlFormatChecker
+from requirement_file_checks.cim import CimChecker
+from requirement_file_checks.transport_attrib import TransportAttributesChecker
+from requirement_file_checks.unicode_char import UnicodeChecker
+from requirement_file_checks.validate_xml import XMLChecker
+from requirement_file_checks.xml_format_checker import XmlFormatChecker
 
 
 def _collect_filenames(path: str) -> List[str]:

@@ -17,8 +17,9 @@ import os
 from typing import List
 
 import lxml
-from base_checker import BaseChecker
 from lxml import etree
+
+from requirement_file_checks.base_checker import BaseChecker
 
 
 class XMLChecker(BaseChecker):

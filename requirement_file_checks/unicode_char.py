@@ -16,7 +16,7 @@
 import re
 from typing import List
 
-from base_checker import BaseChecker
+from requirement_file_checks.base_checker import BaseChecker
 
 
 class UnicodeChecker(BaseChecker):

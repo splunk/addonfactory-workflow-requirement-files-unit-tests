@@ -17,7 +17,7 @@ from typing import List
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 
-from base_checker import BaseChecker
+from requirement_file_checks.base_checker import BaseChecker
 
 
 class XmlFormatChecker(BaseChecker):
