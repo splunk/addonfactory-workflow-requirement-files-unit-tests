@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<device>
+  <vendor>Vendor</vendor>
+  <product>Product</product>
+  <version id="version" />
+  <event code="" name="name" format="json">
+    <version />
+    <transport type="modinput" host="host" source="source" sourcetype="sourcetype" />
+    <source>
+      <jira id="" />
+      <comment>comment</comment>
+    </source>
+    <raw><![CDATA[{"event": "this is an event with value"}]]></raw>
+    <cim>
+      <models>
+        <model>DataModel</model>
+      </models>
+      <cim_fields>
+        <field name="name" value="value" />
+      </cim_fields>
+      <missing_recommended_fields>
+        <field>missing_field</field>
+      </missing_recommended_fields>
+    </cim>
+  </event>
+</device>

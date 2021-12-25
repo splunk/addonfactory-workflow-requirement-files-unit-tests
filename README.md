@@ -5,6 +5,17 @@ This action provides unit tests for Splunk TA's requirement logs.
 
 This action is intended for Splunk internal use.
 
+## Running locally
+
+Steps:
+
+- `git clone git@github.com:splunk/addonfactory-workflow-requirement-files-unit-tests.git`
+- `cd addonfactory-workflow-requirement-files-unit-tests`
+- `python3 -m venv .venv`
+- `source .venv/bin/activate`
+- `pip install lxml==4.6.3`
+- `python run_all.py --input <path-to-your-requiremenet-files>`
+
 # License
 
 The scripts and documentation in this project are released under the [Apache 2.0 License](LICENSE).

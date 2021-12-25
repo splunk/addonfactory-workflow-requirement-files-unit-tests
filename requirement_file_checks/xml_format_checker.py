@@ -13,19 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: 'addonfactory-requirement-files-unit-tests-action'
-description: 'Unit tests for Splunk add-ons requirement tests'
-inputs:
-  input-files:
-    description: 'input folder requirement file'
-    required: true
-    default: 'tests/requirement_test/'
-runs:
-  using: "composite"
-  steps:
-    - run: python -m pip install lxml=="4.6.3"  # Installing dependencies
-      shell: bash
-    - run: echo "TA REQUIREMENT LOGS UNIT TESTS STARTED:"
-      shell: bash
-    - run: python ${{ github.action_path }}/run_all.py --input ${{ inputs.input-files }}
-      shell: bash
+from typing import List
+from xml.sax import make_parser
+from xml.sax.handler import ContentHandler
+
+from requirement_file_checks.base_checker import BaseChecker
+
+
+class XmlFormatChecker(BaseChecker):
+    def __init__(self, filenames: List[str]):
+        super().__init__("xml_format_checker", filenames)
+
+    def _check(self, filename: str):
+        parser = make_parser()
+        parser.setContentHandler(ContentHandler())
+        try:
+            parser.parse(filename)
+        except:
+            self.results.append(f"Cannot parse {filename} as an XML")

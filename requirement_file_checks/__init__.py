@@ -13,19 +13,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: 'addonfactory-requirement-files-unit-tests-action'
-description: 'Unit tests for Splunk add-ons requirement tests'
-inputs:
-  input-files:
-    description: 'input folder requirement file'
-    required: true
-    default: 'tests/requirement_test/'
-runs:
-  using: "composite"
-  steps:
-    - run: python -m pip install lxml=="4.6.3"  # Installing dependencies
-      shell: bash
-    - run: echo "TA REQUIREMENT LOGS UNIT TESTS STARTED:"
-      shell: bash
-    - run: python ${{ github.action_path }}/run_all.py --input ${{ inputs.input-files }}
-      shell: bash
