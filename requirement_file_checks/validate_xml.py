@@ -13,19 +13,28 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #   #######################################################################
-name: 'addonfactory-requirement-files-unit-tests-action'
-description: 'Unit tests for Splunk add-ons requirement tests'
-inputs:
-  input-files:
-    description: 'input folder requirement file'
-    required: true
-    default: 'tests/requirement_test/'
-runs:
-  using: "composite"
-  steps:
-    - run: python -m pip install lxml=="4.6.3"  # Installing dependencies
-      shell: bash
-    - run: echo "TA REQUIREMENT LOGS UNIT TESTS STARTED:"
-      shell: bash
-    - run: python ${{ github.action_path }}/requirement_file_checks/all.py  ${{ inputs.input-files }}
-      shell: bash
+import os
+from typing import List
+
+import lxml
+from base_checker import BaseChecker
+from lxml import etree
+
+
+class XMLChecker(BaseChecker):
+    def __init__(self, filenames: List[str]):
+        super().__init__("validate_xml", filenames)
+        self._schema_file = os.path.join(
+            os.path.dirname(__file__),
+            "schema.xsd",
+        )
+
+    def _check(self, filename: str):
+        xmlschema_doc = etree.parse(self._schema_file)
+        xmlschema = etree.XMLSchema(xmlschema_doc)
+        try:
+            doc = etree.parse(filename)
+            xmlschema.assertValid(doc)
+        except lxml.etree.DocumentInvalid:
+            for error in xmlschema.error_log:
+                self.results.append(f"Line {error.line}: {error.message}")
