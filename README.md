@@ -9,12 +9,12 @@ This action is intended for Splunk internal use.
 
 Steps:
 
-- Clone this repository
+- `git clone git@github.com:splunk/addonfactory-workflow-requirement-files-unit-tests.git`
 - `cd addonfactory-workflow-requirement-files-unit-tests`
 - `python3 -m venv .venv`
 - `source .venv/bin/activate`
-- `pip install lxml`
-- `python requirement_file_checks/all.py --input <path-to-your-requiremenet-files>`
+- `pip install lxml==4.6.3`
+- `python run_all.py --input <path-to-your-requiremenet-files>`
 
 # License
 

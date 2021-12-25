@@ -13,7 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import os
 from typing import List
+
+
+def collect_filenames(path: str) -> List[str]:
+    filenames = []
+    if os.path.exists(path):
+        if os.path.isfile(path):
+            filenames.append(path)
+        elif os.path.isdir(path):
+            for subdir, _, files in os.walk(path):
+                for file in files:
+                    if file.endswith(".log"):
+                        filename = os.path.join(subdir, file)
+                        filenames.append(filename)
+    return filenames
 
 
 class BaseChecker:

@@ -27,5 +27,5 @@ runs:
       shell: bash
     - run: echo "TA REQUIREMENT LOGS UNIT TESTS STARTED:"
       shell: bash
-    - run: python ${{ github.action_path }}/requirement_file_checks/all.py  ${{ inputs.input-files }}
+    - run: python ${{ github.action_path }}/run_all.py --input ${{ inputs.input-files }}
       shell: bash

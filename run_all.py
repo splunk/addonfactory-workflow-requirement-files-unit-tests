@@ -14,9 +14,8 @@
 # limitations under the License.
 #
 import argparse
-import os
-from typing import List
 
+from requirement_file_checks.base_checker import collect_filenames
 from requirement_file_checks.cim import CimChecker
 from requirement_file_checks.transport_attrib import TransportAttributesChecker
 from requirement_file_checks.unicode_char import UnicodeChecker
@@ -24,22 +23,8 @@ from requirement_file_checks.validate_xml import XMLChecker
 from requirement_file_checks.xml_format_checker import XmlFormatChecker
 
 
-def _collect_filenames(path: str) -> List[str]:
-    filenames = []
-    if os.path.exists(path):
-        if os.path.isfile(path):
-            filenames.append(path)
-        elif os.path.isdir(path):
-            for subdir, _, files in os.walk(path):
-                for file in files:
-                    if file.endswith(".log"):
-                        filename = os.path.join(subdir, file)
-                        filenames.append(filename)
-    return filenames
-
-
 def run(path: str):
-    filenames = _collect_filenames(path)
+    filenames = collect_filenames(path)
     print(f"Collected filenames: {filenames}")
     if not filenames:
         raise SystemExit("No files to check")
