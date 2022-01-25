@@ -87,6 +87,7 @@ def check_transport_params(filename):
         "hec_event",
         "forwarder",
         "file_monitor",
+        "file_monitor_w3c",
         "scripted_input",
         "scripted input",
         "hec_raw",

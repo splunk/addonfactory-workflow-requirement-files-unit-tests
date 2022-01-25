@@ -57,6 +57,7 @@
                         <xs:enumeration value="hec_raw"/>
                         <xs:enumeration value="hec_event"/>
                         <xs:enumeration value="file_monitor"/>
+                        <xs:enumeration value="file_monitor_w3c"/>
                       </xs:restriction>
                     </xs:simpleType>
                   </xs:attribute>
