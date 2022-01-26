@@ -152,6 +152,13 @@ def fetch_event_xml(root):
     return event
 
 
+# fetches event_name from event_tag
+def fetch_event_name_xml(root):
+    for event in root.iter("event"):
+        event_name = event.get("name")
+    return event_name
+
+
 def fetch_base_event_recommended(dict_model):
     recommended_for_all = []
     for i in range(len(dict_model)):
@@ -183,10 +190,11 @@ def check_valid_dataset(dict_model, dataset):
     return datset_valid_flag
 
 
-def print_error_msg(file_name, event, model, msg_str, dataset=""):
+def print_error_msg(file_name, event, event_name, model, msg_str, dataset=""):
     logger.error("----------------------------------------------")
     logger.error("FILENAME : " + str(file_name))
     logger.error("EVENT : " + str(event))
+    logger.error("EVENT_NAME : " + str(event_name))
     logger.error("MODEL : " + str(model))
     logger.error("DATASET : " + str(dataset))
     logger.error(msg_str)
@@ -206,6 +214,7 @@ def cim_matching(file_name, jsonpath):
         fields_xml = fetch_xml_fields(cim)
         model_list = fetch_models(cim)
         event = fetch_event_xml(cim)
+        event_name = fetch_event_name_xml(cim)
         jsondir = fetch_cim_version_event(cim, jsonpath)
         if jsondir is None:
             logger.error("No matching CIM version found")
@@ -228,6 +237,7 @@ def cim_matching(file_name, jsonpath):
                     print_error_msg(
                         file_name,
                         event,
+                        event_name,
                         model,
                         "ERROR: No CIM model with this name, Please check the format- model:dataset and models at deps/CIM_Models/"
                         + str(jsondir),
@@ -245,14 +255,17 @@ def cim_matching(file_name, jsonpath):
                             + " at "
                             + str(jsondir)
                         )
-                        print_error_msg(file_name, event, model, error_str, dataset)
+                        print_error_msg(
+                            file_name, event, event_name, model, error_str, dataset
+                        )
                         continue
                 # Require dataset for Endpoint and Splunk-audit
-                if model == "Endpoint" and model == "Splunk_Audit":
+                if model == "Endpoint" or model == "Splunk_Audit":
                     if not dataset:
                         print_error_msg(
                             file_name,
                             event,
+                            event_name,
                             model,
                             "ERROR: dataset required for these models",
                         )
@@ -277,6 +290,7 @@ def cim_matching(file_name, jsonpath):
                     logger.error("FILENAME : " + str(file_name))
                     logger.error("CIM VERSION :" + str(jsondir))
                     logger.error("EVENT : " + str(event))
+                    logger.error("EVENT_NAME : " + str(event_name))
                     logger.error("MODEL : " + str(model))
                     if dataset:
                         logger.error("DATASET : " + str(dataset))
