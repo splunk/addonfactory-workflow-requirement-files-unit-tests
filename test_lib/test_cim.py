@@ -394,7 +394,7 @@ def main(argv):
             for subdir, _, files in os.walk(input_dir):
                 for file in files:
                     filename = os.path.join(subdir, file)
-                    if filename.endswith(".log"):
+                    if filename.endswith(".log") or filename.endswith(".xml"):
                         cim_matching(filename, str(json_dir))
     else:
         print("Invalid Input")

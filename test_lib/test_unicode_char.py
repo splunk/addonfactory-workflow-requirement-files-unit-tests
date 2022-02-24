@@ -37,7 +37,7 @@ def parse_input(input_arg):
         elif os.path.isdir(input_arg):
             for subdir, _, files in os.walk(input_arg):
                 for file in files:
-                    if file.endswith(".log"):
+                    if file.endswith(".log") or file.endswith(".xml"):
                         filename = os.path.join(subdir, file)
                         test_unicode_char(filename)
     else:
