@@ -53,9 +53,9 @@ def check_xml_format(input_folder):
             else:
                 logger.debug(fname + ":Invalid input file format")
                 test_status = False
-            if contains_XML and contains_log:
-                logger.error(" Failed: Files should either be .log or .xml")
-                test_status = False
+        if contains_XML and contains_log:
+            logger.error(" Failed: All files should either be .log or .xml extension")
+            test_status = False
     return test_status
 
 
