@@ -18,7 +18,7 @@ import logging
 import os
 import sys
 from xml.etree import cElementTree as ET
-
+from common_util import *
 from lxml import etree
 
 logger = logging.getLogger()
@@ -112,11 +112,9 @@ def parse_input(input_arg):
         if os.path.isfile(input_arg):
             check_transport_params(input_arg)
         elif os.path.isdir(input_arg):
-            for subdir, _, files in os.walk(input_arg):
-                for file in files:
-                    if file.endswith(".log") or file.endswith(".xml"):
-                        filename = os.path.join(subdir, file)
-                        check_transport_params(filename)
+            file_list = return_folder_contents(input_arg)
+            for filename in file_list:
+                check_transport_params(filename)
     else:
         logger.debug("Invalid input path")
     if not INVALID:

@@ -14,10 +14,11 @@
 #    limitations under the License.
 #   #######################################################################
 import logging
-import os.path
+import os
 import sys
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
+from common_util import *
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -34,28 +35,20 @@ def parsefile(file):
 
 
 def check_xml_format(input_folder):
-    for dirpath, dirs, files in os.walk(input_folder):
-        contains_log, contains_XML, test_status = False, False, True
-        if not os.listdir(dirpath):
-            print("No files in the directory.")
-            exit(1)
-        for filename in files:
-            fname = os.path.join(dirpath, filename)
-            if fname.endswith(".log") or fname.endswith(".xml"):
-                if fname.endswith(".log"):
-                    contains_log = True
-                else:
-                    contains_XML = True
-                try:
-                    parsefile(fname)
-                    print(f" Pass : {str(fname)}")
-                except Exception as e:
-                    test_status = False
-                    logger.debug(str(e) + "\n")
-                    logging.error(f" Failed : {str(e)}")
-            else:
-                logger.debug(fname + ":Invalid input file format")
-                test_status = False
+    file_list = return_folder_contents(input_folder)
+    contains_log, contains_XML, test_status = False, False, True
+    for fname in file_list:
+        if fname.endswith(".log"):
+            contains_log = True
+        else:
+            contains_XML = True
+        try:
+            parsefile(fname)
+            print(f" Pass : {str(fname)}")
+        except Exception as e:
+            test_status = False
+            logger.debug(str(e) + "\n")
+            logging.error(f" Failed : {str(e)}")
         if contains_XML and contains_log:
             logger.error(" Failed: All files should either be .log or .xml extension")
             test_status = False

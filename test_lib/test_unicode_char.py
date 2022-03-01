@@ -3,6 +3,7 @@ import logging
 import os
 import re
 import sys
+from common_util import *
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -35,11 +36,9 @@ def parse_input(input_arg):
         if os.path.isfile(input_arg):
             test_unicode_char(input_arg)
         elif os.path.isdir(input_arg):
-            for subdir, _, files in os.walk(input_arg):
-                for file in files:
-                    if file.endswith(".log") or file.endswith(".xml"):
-                        filename = os.path.join(subdir, file)
-                        test_unicode_char(filename)
+            file_list = return_folder_contents(input_arg)
+            for filename in file_list:
+                test_unicode_char(filename)
     else:
         logger.debug("Invalid input path")
     if not INVALID:

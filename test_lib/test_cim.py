@@ -6,7 +6,7 @@ import logging
 import os.path
 import sys
 from xml.etree import cElementTree as ET
-
+from common_util import *
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 output_file_handler = logging.FileHandler("test_cim_output.txt", mode="w")
@@ -391,11 +391,9 @@ def main(argv):
         if os.path.isfile(input_dir):
             cim_matching(input_dir, str(json_dir))
         else:
-            for subdir, _, files in os.walk(input_dir):
-                for file in files:
-                    filename = os.path.join(subdir, file)
-                    if filename.endswith(".log") or filename.endswith(".xml"):
-                        cim_matching(filename, str(json_dir))
+            file_list = return_folder_contents(input_dir)
+            for filename in file_list:
+                cim_matching(filename, str(json_dir))
     else:
         print("Invalid Input")
     if JENKINS_STATUS is False:
