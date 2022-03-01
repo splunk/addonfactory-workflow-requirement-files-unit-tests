@@ -7,6 +7,7 @@ import os.path
 import sys
 from xml.etree import cElementTree as ET
 from common_util import *
+
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 output_file_handler = logging.FileHandler("test_cim_output.txt", mode="w")
