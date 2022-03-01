@@ -18,6 +18,7 @@ import os
 import sys
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
+
 from common_util import *
 
 logger = logging.getLogger()

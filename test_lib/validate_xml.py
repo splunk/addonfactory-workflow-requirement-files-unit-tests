@@ -17,9 +17,9 @@ import argparse
 import logging
 import os
 import sys
-from common_util import *
 
 import lxml
+from common_util import *
 from lxml import etree
 
 logger = logging.getLogger()

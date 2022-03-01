@@ -18,6 +18,7 @@ import logging
 import os
 import sys
 from xml.etree import cElementTree as ET
+
 from common_util import *
 from lxml import etree
 

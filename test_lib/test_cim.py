@@ -6,6 +6,7 @@ import logging
 import os.path
 import sys
 from xml.etree import cElementTree as ET
+
 from common_util import *
 
 logger = logging.getLogger()
