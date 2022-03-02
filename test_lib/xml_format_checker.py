@@ -19,7 +19,7 @@ import sys
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 
-from common_util import *
+from common_util import return_folder_contents
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)

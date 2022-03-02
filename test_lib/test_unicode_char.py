@@ -4,7 +4,7 @@ import os
 import re
 import sys
 
-from common_util import *
+from common_util import return_folder_contents
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)

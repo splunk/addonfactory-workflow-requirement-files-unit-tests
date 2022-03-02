@@ -19,7 +19,7 @@ import os
 import sys
 
 import lxml
-from common_util import *
+from common_util import return_folder_contents
 from lxml import etree
 
 logger = logging.getLogger()
