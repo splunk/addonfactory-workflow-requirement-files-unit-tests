@@ -4,6 +4,8 @@ import os
 import re
 import sys
 
+from common_util import return_folder_contents
+
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 output_file_handler = logging.FileHandler("test_check_unicode_output.txt", mode="w")
@@ -35,11 +37,9 @@ def parse_input(input_arg):
         if os.path.isfile(input_arg):
             test_unicode_char(input_arg)
         elif os.path.isdir(input_arg):
-            for subdir, _, files in os.walk(input_arg):
-                for file in files:
-                    if file.endswith(".log"):
-                        filename = os.path.join(subdir, file)
-                        test_unicode_char(filename)
+            file_list = return_folder_contents(input_arg)
+            for filename in file_list:
+                test_unicode_char(filename)
     else:
         logger.debug("Invalid input path")
     if not INVALID:

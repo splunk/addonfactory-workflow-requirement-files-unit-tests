@@ -19,6 +19,7 @@ import os
 import sys
 
 import lxml
+from common_util import return_folder_contents
 from lxml import etree
 
 logger = logging.getLogger()
@@ -65,11 +66,9 @@ def parse_input(input_arg, schema_arg):
         if os.path.isfile(input_arg):
             validate_input(input_arg, schema_arg)
         elif os.path.isdir(input_arg):
-            for subdir, _, files in os.walk(input_arg):
-                for file in files:
-                    if file.endswith(".log"):
-                        filename = os.path.join(subdir, file)
-                        validate_input(filename, schema_arg)
+            file_list = return_folder_contents(input_arg)
+            for filename in file_list:
+                validate_input(filename, schema_arg)
     else:
         logger.debug("Invalid input path")
     if not INVALID:
